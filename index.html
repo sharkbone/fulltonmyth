@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta name="viewport" content="width=device-width" />
+<meta name="author" content="Devon Kelley" />
+<meta name="charset" content="utf-8" />
+<title>Fullton Myth Solo Actual Play</title>
+<style>
+body {
+	background-color: #222222;
+	color: #ffcca4;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 600px;
+}
+.header {
+	background-color: #FF7100;
+	min-height: 4em;
+	padding: 15px;
+	border-radius: 15px;
+	margin-bottom: 10px;
+}
+h1 {
+	color: #222222;
+	text-align: center;
+}
+h2 {
+	color: #A74A00;
+}
+h3 {
+	text-align: center;
+	margin-top: 3em;
+	width: 75%;
+	background-color: #ff7100;
+}
+blockquote {
+	padding-left: 3em;
+	border-left: 2px solid #FF7100;
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+hr {
+	border: 1px solid #a74a00;
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+ul {
+	list-style-type: none;
+	padding-left: 0px;
+}
+#view {
+	margin-top: 10px;
+	border-top: 2px solid #a74a00;
+}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>Fullton Myth</h1>
+<h3>A Solo Actual Play Collection of Classic World of Darkness Games</h3>
+</div>
+
+<!-- Below is the element I'll use as a viewport to display the contents of the read file. -->
+<div id="view">
+<!-- Use Javascript to read from the chosen chapter file and create the view -->
+<p>Please select a chapter to read.</p>
+</div>
+
+<!-- I want to place the chapter selector below the viewport so it's easy to access when the reader reaches the end of the chapter -->
+<label for="selector">Select Chapter:
+	<select id="selector">
+		<optgroup label="Werewolf">
+		<option value="wolf1">Chapter 1</option>
+		</optgroup>
+		<optgroup label="Orpheus">
+		<option value="ghost1">Chapter 1</option>
+		</optgroup>
+		<optgroup label="Vampire">
+		<option value="vamp1">Chapter 1</option>
+		</optgroup>
+	</select>
+
+<script>
+	// grab a reference to the selector and the viewport we'll use
+	const chapterSelect = document.getElementById("selector");
+	const displayPort = document.getElementById("view");
+
+	// create the event listener for it
+	chapterSelect.addEventListener("change", (chapter) => {
+		DisplayChapter(chapter.target.value);
+	});
+
+	// create a function to read the file and display the chapter
+	function DisplayChapter(value) {
+		const fetchPromise = fetch(`/chapters/${value}.html`);
+
+		fetchPromise
+		.then((response) => {
+			if(!response.ok) {
+				throw new Error(`HTTP error: ${response.status}`);
+			}
+			return response.text();
+		})
+		.then((data) => {
+			displayPort.innerHTML = data;
+		})
+		.catch((error) => {
+			console.error(`It broke: ${error}`);
+		});
+
+		window.scrollTo({top: 0, behavior: 'smooth'});
+	}
+</script>
+</body>
+</html>
