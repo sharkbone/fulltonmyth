@@ -79,15 +79,17 @@ ul {
 		<option value="vamp1">Chapter 1</option>
 		</optgroup>
 	</select>
+	<button id="select">Select</button>
 
 <script>
 	// grab a reference to the selector and the viewport we'll use
 	const chapterSelect = document.getElementById("selector");
 	const displayPort = document.getElementById("view");
+	const chooseButton = document.getElementById("select");
 
 	// create the event listener for it
-	chapterSelect.addEventListener("change", (chapter) => {
-		DisplayChapter(chapter.target.value);
+	chooseButton.addEventListener("click", () => {
+		DisplayChapter(chapterSelect.value);
 	});
 
 	// create a function to read the file and display the chapter
